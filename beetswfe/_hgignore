@@ -1,0 +1,54 @@
+syntax: glob
+
+# Python "executables"
+*.pyc
+*.pyo
+__pycache__/*
+.tox/*
+*.egg-info/*
+
+# PyCharm files
+.idea/*
+
+# Eclipse files
+.project
+.classpath
+.settings/*
+
+# Vim
+*.swp
+
+# Java "executables"
+*.class
+*.jar
+*.war
+*.pdf
+
+# Maven target directory
+target/*
+
+# OSX specific
+.DS_Store
+
+# Windows specific
+desktop.ini
+
+# Other software
+.dropbox*
+*.sqlite3
+*.db
+
+
+# Beets files
+appveyor.yml
+beet
+extra/*
+MANIFEST.in
+setuptools-18.3.1.zip
+build/*
+beets_Web_Frontend.egg-info/*
+*~*
+dist/*
+tests/.coverage
+tests/.coverage_html
+

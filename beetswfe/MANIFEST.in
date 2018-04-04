@@ -1,0 +1,2 @@
+recursive-include beetsplug/WebGui/static*
+recursive-include beetsplug/WebGui/templates*

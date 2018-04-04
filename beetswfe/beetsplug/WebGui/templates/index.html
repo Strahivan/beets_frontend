@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.dataTables.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.dataTables.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/jplayer.blue.monday.min.css') }}">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <meta charset="UTF-8">
+    <title>BeetsWfe</title>
+</head>
+<body>
+<div>
+    <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Menu</a>
+</div>
+<div id="wrapper">
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+            <li id="home" class="sidebar-brand">
+                Beets web frontend
+            </li>
+            <li id="importModal" class="import">
+                <hr>
+                <label class="labelFont">Import</label>
+                <hr>
+            </li>
+            <li>
+                <!-- <a href="#">My Playlist</a>-->
+            </li>
+            <li>
+                <div class="sidebar_wrapper">
+                    <label>Search</label>
+                </div>
+                <div class="sidebar_position">
+                    <input class="form-control" type="search" id="query" placeholder="Query">
+                </div>
+                <div>
+                    <span id="search" class="glyphicon glyphicon-search pos" aria-hidden="true"></span>
+                </div>
+                <br>
+            </li>
+            <li>
+                <hr>
+            </li>
+            <li>
+                <div class="sidebar_wrapper">
+                    <lable><b>New Playlist</b></lable>
+                </div>
+                <div class="sidebar_position">
+                    <input class="form-control" type="text" id="Playlist"
+                           name="PListName" placeholder="Playlist name">
+                </div>
+                <div>
+                    <span id="savePlaylist" class="glyphicon glyphicon-floppy-disk pos" aria-hidden="true"></span>
+                </div>
+                <br>
+            </li>
+            <li>
+                <hr>
+            </li>
+            <li id="PlaylistOrder">
+                <div id="PlaylistElements">
+                    <lable class="sidebar_wrapper" id="PlayListName"><b>Deine Playlists</b></lable>
+                    <hr>
+                    <div id="OptionsforPlaylist" title="Options for Playlist">
+                        {% for file in ListofPlaylist %}
+                        <div class="{{ file }}">
+                            <button class="btn btn-default" name="{{ file }}" id="submitplaylist">{{ file }}
+                            </button>
+                                <span id="Rename_the_Playlist" class="glyphicon glyphicon-edit pos2" aria-hidden="true"
+                                      onclick="click_Playlist(this)"></span>
+                            <span id="Delete_the_Playlist" class="glyphicon glyphicon-remove pos2"
+                                  aria-hidden="true"></span>
+                            <hr>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </li>
+            <!-- Flask import Playlist
+              <li>
+                <a href="#">Playlist1</a>
+            </li>
+            -->
+        </ul>
+    </div>
+    <!-- /#sidebar-wrapper -->
+    <div id="page-content-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- Page Content -->
+                <div id="jquery_jplayer_1" class="jp-jplayer"></div>
+                <div id="jp_container_1" class="jp-audio" role="application" aria-label="media player">
+                    <div class="jp-type-single">
+                        <div class="jp-gui jp-interface">
+                            <div class="jp-controls">
+                                <div class="jp-controls">
+                                    <button class="jp-previous" role="button" tabindex="0">previous</button>
+                                    <button class="jp-play" role="button" tabindex="0">play</button>
+                                    <button class="jp-next" role="button" tabindex="0">next</button>
+                                    <button class="jp-stop" role="button" tabindex="0">stop</button>
+                                </div>
+                                <div class="jp-progress">
+                                    <div class="jp-seek-bar">
+                                        <div class="jp-play-bar"></div>
+                                    </div>
+                                </div>
+                                <div class="jp-volume-controls">
+                                    <button class="jp-mute" role="button" tabindex="0">mute</button>
+                                    <button class="jp-volume-max" role="button" tabindex="0">max volume</button>
+                                    <div class="jp-volume-bar">
+                                        <div class="jp-volume-bar-value"></div>
+                                    </div>
+                                </div>
+                                <div class="jp-time-holder">
+                                    <div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div>
+                                    <div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>
+                                    <div class="jp-toggles">
+                                        <button class="jp-repeat" role="button" tabindex="0">repeat</button>
+                                        <button class="jp-shuffle" role="button" tabindex="0">random</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="jp-details">
+                                <div class="jp-title" aria-label="title">&nbsp;</div>
+                            </div>
+                            <div class="jp-no-solution">
+                                <span>Update Required</span>
+                                To play the media you will need to either update your browser to a recent version or
+                                update
+                                your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="panel panel-default" id="table_info">
+                        <div class="panel-heading">Music List</div>
+                        <div id="view">
+                            <div id="tableList">
+                                <table class="table row-border compact hover nowrap" id="table">
+                                    <thead>
+                                    <tr>
+                                        <!--<th>Play</th>-->
+                                        <th class="all">Action</th>
+                                        <th class="min-phone-l">Title</th>
+                                        <th class="min-tablet">Interpret</th>
+                                        <th class="desktop">Dauer</th>
+                                        <th class="desktop">Album</th>
+                                        <th class="desktop">Rating</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="results">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /#page-content-wrapper -->
+                    <div class="clearfix"></div>
+                    <!-- Footer Content -->
+                    <footer class="foot-stat" id="count">
+                        {% if items.__len__() == 1 %}
+                        <div class="item-count center"> Sie haben {{ items.__len__() }} Lied in der Datenbank</div>
+                        {% else %}
+                        <div class="item-count center"> Sie haben {{ items.__len__() }} Lieder in der Datenbank
+                        </div>
+                        {% endif %}
+                    </footer>
+                    <!-- /#footer-content-wrapper -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Large modal -->
+
+    <div id="dialog" title="More Options" class="hidden_field">
+        <div id="playlistListe" class="pull-left">
+            <select class="form-control select_action" name="Choose your Playlist" id="addtoPlaylist">
+                {% for file in ListofPlaylist %}
+                <option class="{{ file }}">{{ file }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div id="playlistSend">
+            <button class="btn btn-default tillEnd" id="sendPlaylist">Add to Playlist</button>
+        </div>
+        <div id="playlistReset" class="playRes">
+            <button class="btn btn-default tillEnd2" id="reset">Rating reset</button>
+        </div>
+    </div>
+
+    <div id="dialogPlaylist" class="flow hidden_field" title="Options for Playlists">
+        <input type=text id="editTextBox"/>
+        <button class="btn btn-default" id="renamePlaylistButton">OK</button>
+    </div>
+
+    <div id="modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h1> Import new files
+                        <small> only mp3</small>
+                    </h1>
+                </div>
+                <div class="modal-body">
+                    <input id="files" type="file" name="file[]" multiple="multiple">
+                    <br>
+                    <input class="btn btn-default modal_body" type="button" value="import"
+                           onclick="importMusic(this)">
+
+                    <p>Please upload only allowed files! (mp3)</p>
+                </div>
+                <div class="clearfix"></div>
+                <div class="modal-footer">
+                    <button id="closeModal" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="fileModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h1> Imported-FIles</h1>
+                </div>
+                <div id="fileList" class="modal-body">
+
+                </div>
+                <div class="clearfix"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type=text/javascript src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+<script type=text/javascript src="{{ url_for('static', filename='js/jquery-ui.min.js') }}"></script>
+<script type=text/javascript src="{{ url_for('static', filename='js/jquery.jplayer.min.js') }}"></script>
+<script type=text/javascript src="{{ url_for('static', filename='js/underscore.js') }}"></script>
+<script type=text/javascript src="{{ url_for('static', filename='js/jquery.dataTables.min.js') }}"></script>
+<script type=text/javascript src="{{ url_for('static', filename='js/dataTables.responsive.min.js') }}"></script>
+<script type=text/javascript src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+<script type=text/javascript src="{{ url_for('static', filename='js/backbone.js') }}"></script>
+<script type=text/javascript src="{{ url_for('static', filename='js/beets.js') }}"></script>
+<script type=text/javascript src="{{ url_for('static', filename='js/jquery.raty.js') }}"></script>
+<script type="text/template" id="item-entry-template" class="item-entry-template">
+    <td id="action">
+        <button id="more" class="btn btn-default" style="width: 100%;height: 100%;"></button>
+    </td>
+    <td id="title"><%= title %></td>
+    <td id="artist"><%= artist %></td>
+    <td id="time"><%= timeFormat(length) %></td>
+    <td id="album"><%= album %></td>
+    <td id="rate">
+        <div class="rate" id="star<%= id %>"></div>
+    </td>
+</script>
+<script type=text/javascript>
+    $Playlist_exist = "{{ playlistexist }}";
+    if ($Playlist_exist.indexOf('_notCreated') !== -1) {
+        alert("Die Playlist mit dem Namen " + $Playlist_exist.split('_')[0] + " wurde bereits erstellt!");
+    }
+    else if ($Playlist_exist !== "") {
+        alert("Die Playlist mit dem Namen " + $Playlist_exist + " wurde erfolgreich erstellt!");
+
+    }
+</script>
+</body>
+</html>
